@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document, Model } from 'mongoose'
 
-interface VendorDoc {
+interface VendorDoc extends Document {
     name: string;
     ownerName: string;
     foodType: [string];
@@ -23,7 +23,7 @@ const VendorSchema = new Schema({
     pincode: { type: String, required: true },
     address: { type: String },
     phone: { type: String, required: true },
-    email: { type: String, required: true, unique:true },
+    email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     salt: { type: String, required: true },
     serviceAvailability: { type: Boolean, default: false },
@@ -34,10 +34,8 @@ const VendorSchema = new Schema({
     //     ref: 'food'
     // },
 }, {
-    toJSON:{
-        transform(doc: any, ret: any){
-            delete ret.password;
-            delete ret.salt;
+    toJSON: {
+        transform(doc: any, ret: any) {
             delete ret.__v;
             delete ret.createdAt;
             delete ret.updatedAt;

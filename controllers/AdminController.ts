@@ -9,10 +9,8 @@ import { GeneratePassword, GenerateSalt } from '../utility/PasswordUtility';
 export const FindVendor = async (id: string | undefined, email?: string) => {
     if (email) {
         return await Vendor.findOne({ email })
-    } else if (id) {
-        return await Vendor.findById(id)
     } else {
-        return await Vendor.find()
+        return await Vendor.findById(id)
     }
 }
 
@@ -54,7 +52,7 @@ export const createVendor = async (req: Request, res: Response, next: NextFuncti
 
 export const getVendors = async (req: Request, res: Response, next: NextFunction) => {
 
-    const vendors = await FindVendor(undefined);
+    const vendors = await Vendor.find();
 
     if (vendors != null) {
         return res.status(200).json(vendors);
