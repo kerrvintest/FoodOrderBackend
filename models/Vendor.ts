@@ -29,10 +29,10 @@ const VendorSchema = new Schema({
     serviceAvailability: { type: Boolean, default: false },
     coverImage: { type: [String] },
     rating: { type: Number, default: 0 },
-    // foods: {
-    //     type: mongoose.SchemaTypes.ObjectId,
-    //     ref: 'food'
-    // },
+    foods: [{
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'food'
+    }],
 }, {
     toJSON: {
         transform(doc: any, ret: any) {

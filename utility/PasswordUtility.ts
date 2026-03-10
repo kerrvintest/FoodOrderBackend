@@ -15,15 +15,20 @@ export const GenerateSignature = (payload: VendorPayload) => jwt.sign(payload, A
 
 export const ValidateSignature = async (req: Request) => {
 
-    const signature = req.get('Authorization');
+    try {
+        const signature = req.get('Authorization');
 
-    if (signature) {
-        const payload = jwt.verify(signature.split(' ')[1], APP_SECRET) as AuthPayload
+        if (signature) {
+            const payload = jwt.verify(signature.split(' ')[1], APP_SECRET) as AuthPayload
+            req.user = payload;
 
-        req.user = payload;
-
-        return true
+            return true
+        }
+    } catch (error: any) {
+        console.log(error.message)
+        return false
     }
 
-    return false
+
+
 }
