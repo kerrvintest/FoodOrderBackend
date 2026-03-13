@@ -92,6 +92,8 @@ export const VendorCreateFood = async (req: Request, res: Response, next: NextFu
         const vendor = await FindVendor(user._id)
         if (vendor) {
 
+            const files = req.files as [Express.Multer.File]
+            const images = files.map((file: Express.Multer.File) => file.filename)
             //ADD DATABASE COMMIT FUNCTIONALITY
             const newFood = await Food.create({
                 vendorId: vendor.id,
@@ -100,12 +102,13 @@ export const VendorCreateFood = async (req: Request, res: Response, next: NextFu
                 category: category,
                 foodType: foodType,
                 readyTime: readyTime,
-                price: price
+                price: price,
+                images: images
             })
             if (newFood) {
                 vendor.foods.push(newFood)
                 const result = await vendor.save()
-                
+
                 return res.status(200).json(newFood)
             }
         }
@@ -122,7 +125,7 @@ export const VendorGetFoods = async (req: Request, res: Response, next: NextFunc
         const foods = await Food.find({ vendorId: user._id })
         if (foods && foods.length > 0) {
             return res.status(200).json(foods)
-        }else {
+        } else {
             return res.status(200).json({ message: "No listed food." })
         }
     }
